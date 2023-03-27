@@ -2,8 +2,7 @@
 
 static const char *TAG = "tuning_http_server";
 static char scratch[SCRATCH_BUFSIZE];
-// static pid_const_t analog_constants = {.kp = 0.9, .ki = 0, .kd = 6.5, .val_changed = true};
-static analog_const_t analog_constants = {.x = 0.9, .y = 0, .speed = 0, .angle = 0, .val_changed = 1 }; //DOUBT
+static pid_const_t pid_constants = {.kp = 0.9, .ki = 0, .kd = 6.5, .val_changed = true};
 
 static void initialise_mdns(void)
 {
@@ -155,31 +154,21 @@ static esp_err_t tuning_pid_post_handler(httpd_req_t *req)
         return ESP_FAIL;
     }
     
-    if (!cJSON_HasObjectItem(root, "x") || !cJSON_HasObjectItem(root, "y") || !cJSON_HasObjectItem(root, "speed")|| !cJSON_HasObjectItem(root, "angle"))
-    
+    if  (!cJSON_HasObjectItem(root, "x") || !cJSON_HasObjectItem(root, "y") || !cJSON_HasObjectItem(root, "speed")|| !cJSON_HasObjectItem(root,"angle" ))
     {
         ESP_LOGE(TAG, "invalid json response");
         return ESP_FAIL;
     }
     
-         analog_constants.x = (float)cJSON_GetObjectItem(root, "x")->valuedouble;
-    analog_constants.y = (float)cJSON_GetObjectItem(root, "y")->valuedouble;
-    analog_constants.speed = (float)cJSON_GetObjectItem(root, "speed")->valuedouble;
-    analog_constants.angle = (float)cJSON_GetObjectItem(root, "angle")->valuedouble;
+      pid_constants.x = (float)cJSON_GetObjectItem(root, "x")->valuedouble;
+    pid_constants.y = (float)cJSON_GetObjectItem(root, "y")->valuedouble;
+    pid_constants.speed = (float)cJSON_GetObjectItem(root, "speed")->valuedouble;
+    pid_constants.angle = (float)cJSON_GetObjectItem(root, "angle")->valuedouble;
 
-    ESP_LOGI("debug", "X: %f ::  Y: %f  :: SPEED: %f :: ANGLE: %f", read_analog_const().x, read_analog_const().y, read_analog_const().speed, read_analog_const().angle);
-#ifdef CONFIG_ENABLE_OLED
-     Diplaying kp, ki, kd values on OLED          if (read_analog_const().val_changed)
-        {
-            display_pid_values(read_analog_const().x, read_analog_const().y, read_analog_const().speed, read_analog_const().angle, &oled_config);
-            reset_val_changed_pid_const();
-        }
- #endif
-    
     cJSON_Delete(root);
     httpd_resp_sendstr(req, "Post control value successfully");
 
-    analog_constants.val_changed = true;
+    pid_constants.val_changed = true;
     return ESP_OK;
 }
 
@@ -225,12 +214,12 @@ static esp_err_t start_tuning_http_server_private()
 
 pid_const_t read_pid_const()
 {
-    return analog_constants;
+    return pid_constants;
 }
 
 void reset_val_changed_pid_const()
 {
-    analog_constants.val_changed = false;
+    pid_constants.val_changed = false;
 }
 
 void start_tuning_http_server()
