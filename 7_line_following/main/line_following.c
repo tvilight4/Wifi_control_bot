@@ -14,37 +14,33 @@
 /*
  * weights given to respective line sensor
  */
-//const int weights[5] = {-5, -3, 1, 3, 5};
+// const int weights[5] = {-5, -3, 1, 3, 5};
 
 /*
  * Motor value boundts
  */
 int optimum_duty_cycle = 63;
-const int lower_duty_cycle = 60;
-const int higher_duty_cycle = 90;
+const float lower_duty_cycle = 60;
+const float higher_duty_cycle = 90;
 float left_duty_cycle = 0.0;
 float right_duty_cycle = 0.0;
-float duty_cycle_val= 0.0;
+float duty_cycle_val = 0.0;
 
 /*
  * Line Following PID Variables
  */
-//float error=0, prev_error=0, difference, cumulative_error, correction;
+// float error=0, prev_error=0, difference, cumulative_error, correction;
 
 /*
  * Union containing line sensor readings
  */
-//line_sensor_array line_sensor_readings;
+// line_sensor_array line_sensor_readings;
 
-
-
-
-
-void line_follow_task(void* arg)
+void line_follow_task(void *arg)
 {
     ESP_ERROR_CHECK(enable_motor_driver(a, NORMAL_MODE));
-  //  ESP_ERROR_CHECK(enable_line_sensor());
-    //ESP_ERROR_CHECK(enable_bar_graph());
+    //  ESP_ERROR_CHECK(enable_line_sensor());
+    // ESP_ERROR_CHECK(enable_bar_graph());
 #ifdef CONFIG_ENABLE_OLED
     // Initialising the OLED
     ESP_ERROR_CHECK(init_oled());
@@ -54,71 +50,93 @@ void line_follow_task(void* arg)
     lv_obj_clean(lv_scr_act());
 
 #endif
-    duty_cycle_val= (lower_duty_cycle + (((higher_duty_cycle-lower_duty_cycle)/100)*  read_pid_const().speed));
+    duty_cycle_val = (lower_duty_cycle + (((higher_duty_cycle - lower_duty_cycle) / 100) * read_pid_const().speed));
 
+    while (true)
+    {
+        //ESP_LOGI("debug", "test no. while");
 
-    while(true)
-    {
-      
-      left_duty_cycle=bound(duty_cycle_val,higher_duty_cycle,lower_duty_cycle);
-      right_duty_cycle=bound(duty_cycle_val,higher_duty_cycle,lower_duty_cycle);
-      int a=0;
-      if(      read_pid_const().angle>=0 &&       read_pid_const().angle<90){
-         int a=1;
-         }
-       if(      read_pid_const().angle>90 &&       read_pid_const().angle<=180){
-         int a=2;
-       }
-       if(      read_pid_const().angle>=180 &&     read_pid_const().angle<270){
-          int a=3;
-       }
-       if(      read_pid_const().angle>270 &&     read_pid_const().angle<=360){
-          int a=4;
-       }
-       if(      read_pid_const().angle==90){
-          int a=5;
-       }
-       if(      read_pid_const().angle==270){
-          int a=6;
-       }
-    if(    read_pid_const().x!=0 ||     read_pid_const().y!=0)
-    {
-      switch (a)
-      {
-         case 1:
-         set_motor_speed(MOTOR_A_0,MOTOR_FORWARD,left_duty_cycle);
-         set_motor_speed(MOTOR_A_1,MOTOR_FORWARD,lower_duty_cycle);
-         break;
-      
-          case 2:
-         set_motor_speed(MOTOR_A_0,MOTOR_FORWARD,lower_duty_cycle);
-         set_motor_speed(MOTOR_A_1,MOTOR_FORWARD,right_duty_cycle);
-         break;
-      
-         case 3:
-         set_motor_speed(MOTOR_A_0,MOTOR_BACKWARD,lower_duty_cycle);
-         set_motor_speed(MOTOR_A_1,MOTOR_BACKWARD,right_duty_cycle);
-         break;
+        left_duty_cycle = bound(duty_cycle_val, higher_duty_cycle, lower_duty_cycle);
+        right_duty_cycle = bound(duty_cycle_val, higher_duty_cycle, lower_duty_cycle);
+        int a = 0;
+       if(read_pid_const().x!=0 && read_pid_const().y!=0)
+       {
+        if (read_pid_const().angle >= 0 && read_pid_const().angle < 90)
+        {
+            a = 1;
+            // ESP_LOGI("debug","test no. 1");
+        }
+        if (read_pid_const().angle > 90 && read_pid_const().angle <= 180)
+        {
+            a = 2;
+        }
+        if (read_pid_const().angle >= 180 && read_pid_const().angle < 270)
+        {
+            a = 3;
+        }
+        if (read_pid_const().angle > 270 && read_pid_const().angle <= 360)
+        {
+            a = 4;
+        }
+        if (read_pid_const().angle == 90)
+        {
+            a = 5;
+        }
+        if (read_pid_const().angle == 270)
+        {
+            a = 6;
+        }
+        if (read_pid_const().x != 0 || read_pid_const().y != 0)
+
+       } 
+            // ESP_LOGI("debug","test no. 0");
+            switch (a)
+            {
+            case 1:
+                set_motor_speed(MOTOR_A_0, MOTOR_FORWARD, left_duty_cycle);
+                set_motor_speed(MOTOR_A_1, MOTOR_FORWARD, lower_duty_cycle);
+                //ESP_LOGI("debug", "test no. case1");
+                break;
+
+            case 2:
+                set_motor_speed(MOTOR_A_0, MOTOR_FORWARD, lower_duty_cycle);
+                set_motor_speed(MOTOR_A_1, MOTOR_FORWARD, right_duty_cycle);
+                break;
+
+            case 3:
+                set_motor_speed(MOTOR_A_0, MOTOR_BACKWARD, lower_duty_cycle);
+                set_motor_speed(MOTOR_A_1, MOTOR_BACKWARD, right_duty_cycle);
+                break;
+
+            case 4:
+                set_motor_speed(MOTOR_A_0, MOTOR_BACKWARD, left_duty_cycle);
+                set_motor_speed(MOTOR_A_1, MOTOR_BACKWARD, lower_duty_cycle);
+                break;
+
+            case 5:
+                set_motor_speed(MOTOR_A_0, MOTOR_FORWARD, left_duty_cycle);
+                set_motor_speed(MOTOR_A_1, MOTOR_FORWARD, right_duty_cycle);
+                break;
+
+            case 6:
+                set_motor_speed(MOTOR_A_0, MOTOR_BACKWARD, left_duty_cycle);
+                set_motor_speed(MOTOR_A_1, MOTOR_BACKWARD, right_duty_cycle);
+                break;
+            default:
+                set_motor_speed(MOTOR_A_0,MOTOR_STOP,100.0);
+                set_motor_speed(MOTOR_A_1,MOTOR_STOP,100.0);
+                break;
+            }
         
-         case 4:
-         set_motor_speed(MOTOR_A_0,MOTOR_BACKWARD,left_duty_cycle);
-         set_motor_speed(MOTOR_A_1,MOTOR_BACKWARD,lower_duty_cycle);
-         break;
+        /*if (read_pid_const().x == 0 || read_pid_const().y == 0)*/
+        {
 
-         case 5:
-         set_motor_speed(MOTOR_A_0,MOTOR_FORWARD,left_duty_cycle);
-         set_motor_speed(MOTOR_A_1,MOTOR_FORWARD,right_duty_cycle);
-         break;
+            set_motor_speed(MOTOR_A_0, MOTOR_STOP, left_duty_cycle);
+            set_motor_speed(MOTOR_A_1, MOTOR_STOP, right_duty_cycle);
+        }
 
-         case 6:
-         set_motor_speed(MOTOR_A_0,MOTOR_BACKWARD,left_duty_cycle);
-         set_motor_speed(MOTOR_A_1,MOTOR_BACKWARD,right_duty_cycle);
-         break;
-
-      } 
-    }
-        //ESP_LOGI("debug","left_duty_cycle:  %f    ::  right_duty_cycle :  %f  :: error :  %f  correction  :  %f  \n",left_duty_cycle, right_duty_cycle, error, correction);
-        ESP_LOGI("debug", "X: %f ::  Y: %f  :: SPEED: %f :: ANGLE: %f",     read_pid_const() .x,     read_pid_const() .y,     read_pid_const() .speed,     read_pid_const() .angle);
+        // ESP_LOGI("debug","left_duty_cycle:  %f    ::  right_duty_cycle :  %f  :: error :  %f  correction  :  %f  \n",left_duty_cycle, right_duty_cycle, error, correction);
+        ESP_LOGI("debug", "X: %f ::  Y: %f  :: SPEED: %f :: ANGLE: %f", read_pid_const().x, read_pid_const().y, read_pid_const().speed, read_pid_const().angle);
 
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
@@ -128,6 +146,6 @@ void line_follow_task(void* arg)
 
 void app_main()
 {
-    
+    xTaskCreate(&line_follow_task, "line_follow_task", 4096, NULL, 1, NULL);
     start_tuning_http_server();
 }
