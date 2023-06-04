@@ -26,7 +26,11 @@ In this project, we will set up a wifi server and control the bot using our phon
 - giving additional power to specific motors in specific cases for proper turning
 
 
+## DEMO
 
+
+
+Uploading VID-20230510-WA0004.mp4…
 
 
 
