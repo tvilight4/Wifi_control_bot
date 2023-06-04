@@ -30,7 +30,6 @@ In this project, we will set up a wifi server and control the bot using our phon
 
 
 ![ezgif com-gif-maker](https://github.com/tvilight4/Wifi_control_bot/blob/d4768ff98fc709e03866d2d11a4fad745b5c73b1/assets/ezgif.com-optimize.gif)
-![Uploading ezgif.com-optimize.gif…]()
 
 
 
