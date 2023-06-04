@@ -32,7 +32,8 @@ typedef struct pid_const
     float x;
     float y;
     float speed;
-    bool angle;
+    float angle;
+    bool val_changed;
 } pid_const_t;
 
 pid_const_t read_pid_const();
