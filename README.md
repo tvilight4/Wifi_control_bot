@@ -29,7 +29,7 @@ In this project, we will set up a wifi server and control the bot using our phon
 ## DEMO
 
 
-![ezgif com-gif-maker](assets/VID-20230510-WA0001.mp4)
+[ezgif com-gif-maker](assets/VID-20230510-WA0001.mp4)
 
 
 
