@@ -2,7 +2,7 @@
 
 static const char *TAG = "tuning_http_server";
 static char scratch[SCRATCH_BUFSIZE];
-static pid_const_t pid_constants = {.kp = 0.9, .ki = 0, .kd = 6.5, .val_changed = true};
+static pid_const_t pid_constants = {.x= 0.0, .y = 0.0, .speed = 0.0, .angle=0.0,.val_changed = true};
 
 static void initialise_mdns(void)
 {
@@ -77,7 +77,7 @@ static esp_err_t rest_common_get_handler(httpd_req_t *req)
 
     if (strlen(req->uri) > 0 && req->uri[strlen(req->uri) - 1] == '/') 
     {
-        strlcat(filepath, "/index.html", sizeof(filepath));
+        strlcat(filepath, "/joystick.html", sizeof(filepath));
     }
     else 
     {
