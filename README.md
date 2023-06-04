@@ -37,37 +37,6 @@ In this project, we will set up a wifi server and control the bot using our phon
 ```
 ├── CMakeLists.txt
 ├── build
-│   ├── CMakeCache.txt
-│   ├── CMakeFiles
-│   ├── app-flash_args
-│   ├── bootloader
-│   ├── bootloader-flash_args
-│   ├── bootloader-prefix
-│   ├── build.ninja
-│   ├── cmake_install.cmake
-│   ├── compile_commands.json
-│   ├── config
-│   ├── config.env
-│   ├── esp-idf
-│   ├── flash_app_args
-│   ├── flash_args
-│   ├── flash_args.in
-│   ├── flash_bootloader_args
-│   ├── flash_project_args
-│   ├── flasher_args.json
-│   ├── kconfigs.in
-│   ├── kconfigs_projbuild.in
-│   ├── ldgen_libraries
-│   ├── ldgen_libraries.in
-│   ├── line_following.bin
-│   ├── line_following.map
-│   ├── partition-table-flash_args
-│   ├── partition_table
-│   ├── project_description.json
-│   ├── project_elf_src_esp32.c
-│   ├── www-flash_args
-│   ├── www.bin
-│   └── x509_crt_bundle.S
 ├── frontend
 │   └── joystick.html
 ├── main
