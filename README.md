@@ -29,8 +29,7 @@ In this project, we will set up a wifi server and control the bot using our phon
 ## DEMO
 
 
-
-Uploading VID-20230510-WA0004.mp4…
+![](assets/VID-20230510-WA0001.mp4)
 
 
 
