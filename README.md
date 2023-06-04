@@ -111,7 +111,7 @@ idf.py -p (PORT) flash monitor
 
 ## Acknowledgements and References
 * [SRA VJTI](https://sravjti.in/) WALL-E 2023
-* Special thanks to our mentors [Prit Kanadiya](https://github.com/ChinmayLonkar), [Smeer Gupta](https://github.com/marck3131) and all the seniors at SRA, VJTI for their constant support and guidance throughout the project.
+* Special thanks to our mentors [Prit Kanadiya](https://github.com/PritK99), [Smeer Gupta](https://github.com/sameergupta4873) and all the seniors at SRA, VJTI for their constant support and guidance throughout the project.
 * [Wall-E 2023](https://github.com/SRA-VJTI/Wall-E) Github repository of   Wall-E 2023
 * 
 * [Resources from mentor](https://github.com/sameergupta4873/Wall-E-test) reference joystick webpage.
